@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-void smallAndlarge(int arr[], int size){
+int findSmallestElement(int arr[], int size){
   int smallest = INT_MAX;
   for(int i = 0; i < size; i++){
     if(arr[i] < smallest){
@@ -9,7 +9,10 @@ void smallAndlarge(int arr[], int size){
     }
   }
   cout<< smallest <<endl;
+  return smallest;
+}
 
+int findLargestElement(int arr[], int size){
   int largest = INT_MIN;
   for(int i = 0; i < size ; i++){
     if(arr[i] > largest){
@@ -17,6 +20,7 @@ void smallAndlarge(int arr[], int size){
     }
   }
   cout << largest<< endl;
+  return largest;
 }
 
 int linearSearch(int arr[], int size, int element){
@@ -68,8 +72,37 @@ void productOfNumsInArray(int arr[], int size){
   cout << sum;
 }
 
+void swapMinMax(int arr[], int size){
+  int smallest = findSmallestElement(arr, size);
+  int largest = findLargestElement(arr,size);
+  int temp = smallest;
+  smallest = largest;
+  largest = temp;
+  cout << "Swapped!" << endl;
+  cout << smallest << endl;
+  cout << largest << endl;
+  
+
+}
+
+void findUniqueElements(int arr[], int size){
+  for(int i = 0; i < size; i++){
+    bool isUnique = true;
+    for(int j = 0; j < size; j++){
+      if(i != j && arr[i] == arr[j]){
+        isUnique = false;
+        break;
+      }
+    }
+    if(isUnique){
+      cout << arr[i] << " ";
+    }
+  }
+  cout << endl;
+}
+
 int main(){
-  int arr[] = {1,2,3,4,5,5,6};
+  int arr[] = {1,2,3,4,5,6,6,7,8,8};
   int size = sizeof(arr) / sizeof(arr[0]);
   
   //smallAndlarge(arr, size);
@@ -77,5 +110,8 @@ int main(){
   //reverseArray(arr, size);
   //sumOfNumsInArray(arr,size);
   //productOfNumsInArray(arr, size);
+  //swapMinMax(arr, size);
+  //findUniqueElements(arr, size);
+  
   return 0;
 }
