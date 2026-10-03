@@ -1,4 +1,7 @@
 #include<iostream>
+#include <climits>
+#include <vector>
+#include<set>
 using namespace std;
 
 int findSmallestElement(int arr[], int size){
@@ -101,9 +104,102 @@ void findUniqueElements(int arr[], int size){
   cout << endl;
 }
 
+int findLargestElementOptimal(int arr[], int size){
+  int largest = arr[0];
+  for(int i=1; i<size; i++){
+    if(arr[i] > arr[0]){
+      largest = arr[i];
+    }
+  }
+  cout << "Largest num is: " << largest << endl;
+  return largest;
+}
+
+int secondLargest(vector<int> nums, int size){
+  int largest = nums[0];
+  int sLargest = INT_MIN;
+
+  for(int i = 1; i<size; i++){
+    if(nums[i] > largest){
+      sLargest = largest;
+      largest = nums[i];
+    }
+    else if(nums[i] < largest && nums[i] > sLargest){
+      sLargest = nums[i];
+    }
+  }
+  cout << "second largest num is: " << sLargest << endl;
+  return sLargest;
+}
+
+int secondSmallest(vector<int> nums, int size){
+  int smallest = nums[0];
+  int sSmallest = INT_MAX;
+
+  for(int i=1; i<size; i++){
+    if(nums[i] < smallest){
+      sSmallest = smallest;
+      smallest = nums[i];
+    }
+    else if(nums[i] != smallest && nums[i] < sSmallest){
+      sSmallest = nums[i];
+    }
+  }
+  cout<< "second smallest num is: " << sSmallest << endl;
+  return sSmallest;
+}
+
+vector<int> getSecondOrderElements(vector<int> nums, int size){
+  int sLargest = secondLargest(nums,size);
+  int sSmallest = secondSmallest(nums,size);
+
+  return {sSmallest, sLargest};
+}
+
+bool checkArrSortedAndRotated(vector<int> nums, int nums_size){
+  int count=0;
+  for(int i=0;i<nums_size;i++){
+    if(nums[(i+1)%nums_size] < nums[i]){
+      count++;
+    }
+    if(count>1){
+      return false;
+    }
+  }
+  return true;
+}
+
+int removeDuplicatedFromSortedArr(int arr[], int size){
+  int n = size;
+  int i=0;
+  for(int j=1; j<n;j++){
+    if(arr[i] != arr[j]){
+      arr[i+1] = arr[j];
+      i++;
+    }
+  }
+  cout << "Number of unique elements: " << i+1<<endl;
+  return i+1;
+}
+
+vector<int> leftRotateByOne(vector<int> nums){
+  int temp = nums[0];
+
+  for(int i=1; i<nums.size(); i++){
+    nums[i-1] = nums[i];
+  }
+  nums[nums.size()-1] = temp;
+  return nums;
+}
+
+
+
 int main(){
   int arr[] = {1,2,3,4,5,6,6,7,8,8};
   int size = sizeof(arr) / sizeof(arr[0]);
+  vector<int> nums = {3,4,9,1,3,9,5};
+  //vector<int> nums = {3,4,5,1,2};
+  int nums_size = nums.size();
   
   //smallAndlarge(arr, size);
   //cout << linearSearch(arr, size, 8) << endl;
@@ -113,5 +209,20 @@ int main(){
   //swapMinMax(arr, size);
   //findUniqueElements(arr, size);
   
+  //findLargestElementOptimal(arr,size);
+  //getSecondOrderElements(nums, nums_size);
+  
+  //bool isSortedAndRotated = checkArrSortedAndRotated(nums, nums_size);
+  //cout << (isSortedAndRotated ? "true" : "false") << endl;
+
+  //removeDuplicatedFromSortedArr(arr,size);
+
+  // vector<int> leftRotatedArr = leftRotateByOne(nums);
+  // for(int num: leftRotatedArr){
+  //   cout<<num << ",";
+  // }
+  // cout <<endl;
+
+
   return 0;
 }
