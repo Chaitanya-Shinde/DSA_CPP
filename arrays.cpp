@@ -263,13 +263,53 @@ vector<int> rightRotateArrByKElements_OP(vector<int> nums, int k){
   return nums;
 }
 
+vector<int> MoveZeroesToEnd_BF(vector<int> nums){
+  int n = nums.size();
 
+  vector<int> temp;
+  for(int i=0; i<n; i++){
+    if(nums[i] !=0){
+      temp.push_back(nums[i]);
+    }
+  }
+
+  for(int i=0; i<temp.size(); i++){
+    nums[i] = temp[i];
+  }
+
+  for(int i = temp.size(); i<n; i++){
+    nums[i] = 0;
+  }
+  return nums;
+}
+
+vector<int> MoveZeroesToEnd_OP(vector<int> nums){
+  int n= nums.size();
+  int j = -1;
+  for(int i = 0; i<n; i++){ //get 1st 0 element
+    if(nums[i] == 0){
+      j = i;
+      break;
+    }
+  }
+  if(j == -1){
+    return nums;
+  }
+  for(int i = j+1; i<n; i++){
+    if(nums[i] != 0){
+      swap(nums[i], nums[j]);
+      j++;
+    }
+  }
+  return nums;
+}
 
 int main(){
   int arr[] = {1,2,3,4,5,6,6,7,8,8};
   int size = sizeof(arr) / sizeof(arr[0]);
   vector<int> nums = {3,4,9,1,3,9,5};
   vector<int> nums2 = {1,2,3,4,5,6,7,8};
+  vector<int> nums3 = {1,2,0,3,0,4,5,0};
   //vector<int> nums = {3,4,5,1,2};
   int nums_size = nums.size();
   
@@ -297,8 +337,11 @@ int main(){
 
   //vector<int> leftRotatedArrByK = leftRotateArrByKElements_BF(nums,3);
   //vector<int> leftRotatedArrByK = leftRotateArrByKElements_OP(nums,3);
-  vector<int> rightRotatedArrByK = rightRotateArrByKElements_OP(nums2,3);
-  for(int num: rightRotatedArrByK){
+  //vector<int> rightRotatedArrByK = rightRotateArrByKElements_OP(nums2,3);
+
+  //vector<int> movedZeroesArr = MoveZeroesToEnd_BF(nums3);
+  vector<int> movedZeroesArr = MoveZeroesToEnd_OP(nums3);
+  for(int num: movedZeroesArr){
     cout<<num << ",";
   }
   cout <<endl;
