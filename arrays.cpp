@@ -2,6 +2,7 @@
 #include <climits>
 #include <vector>
 #include<set>
+#include<bits/stdc++.h>
 using namespace std;
 
 int findSmallestElement(int arr[], int size){
@@ -56,6 +57,16 @@ void reverseArray(int arr[], int size){
   }
   for(int i = 0; i<size; i++){
     cout<< arr[i];
+  }
+}
+
+void reverseElementsOfArray(vector<int>& arr, int start, int end){
+  while(start<=end){
+    int temp = arr[start];
+    arr[start] = arr[end];
+    arr[end] = temp;
+    start++;
+    end--;
   }
 }
 
@@ -192,12 +203,73 @@ vector<int> leftRotateByOne(vector<int> nums){
   return nums;
 }
 
+vector<int> leftRotateArrByKElements_BF(vector<int> nums, int k){
+  int n = static_cast<int>(nums.size());
+  if(n == 0){
+    return nums;
+  }
+  k = k % n;
+  if(k < 0){
+    k += n;
+  }
+
+  vector<int> tempArr;
+  for(int i = 0; i<k; i++){
+    tempArr.push_back(nums[i]); //O(k)
+  }
+
+  for(int i=k; i<n; i++){
+    nums[i-k] = nums[i]; //O(n-k)
+  }
+
+  for(int i=n-k; i<n; i++){
+    nums[i] = tempArr[i-(n-k)]; //O(k)
+  }
+  //TC = O(n+k)
+  //SC = O(k)
+  return nums;
+}
+
+vector<int> leftRotateArrByKElements_OP(vector<int> nums, int k){
+  int n = nums.size();
+  if(n == 0){
+    return nums;
+  }
+  k= k%n;
+  if(k < 0){
+    k += n;
+  }
+
+  reverseElementsOfArray(nums, 0, k-1);
+  reverseElementsOfArray(nums, k,n-1);
+  reverseElementsOfArray(nums, 0, n-1);
+
+
+  return nums;
+}
+
+vector<int> rightRotateArrByKElements_OP(vector<int> nums, int k){
+  int n = nums.size();
+  if(n==0){
+    return nums;
+  }
+
+  k = k%n;
+
+  reverseElementsOfArray(nums, 0, (n-k)-1);
+  reverseElementsOfArray(nums, n-k, n-1);
+  reverseElementsOfArray(nums, 0 , n-1);
+
+  return nums;
+}
+
 
 
 int main(){
   int arr[] = {1,2,3,4,5,6,6,7,8,8};
   int size = sizeof(arr) / sizeof(arr[0]);
   vector<int> nums = {3,4,9,1,3,9,5};
+  vector<int> nums2 = {1,2,3,4,5,6,7,8};
   //vector<int> nums = {3,4,5,1,2};
   int nums_size = nums.size();
   
@@ -223,6 +295,12 @@ int main(){
   // }
   // cout <<endl;
 
-
+  //vector<int> leftRotatedArrByK = leftRotateArrByKElements_BF(nums,3);
+  //vector<int> leftRotatedArrByK = leftRotateArrByKElements_OP(nums,3);
+  vector<int> rightRotatedArrByK = rightRotateArrByKElements_OP(nums2,3);
+  for(int num: rightRotatedArrByK){
+    cout<<num << ",";
+  }
+  cout <<endl;
   return 0;
 }
